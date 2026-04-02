@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Copilot PR Dashboard</title>
+    <style>
+        body { font-family: 'Segoe UI', system-ui, sans-serif; margin: 40px; background-color: #f3f4f6; color: #1f2937; }
+        .container { max-width: 1200px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
+        header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f3f4f6; padding-bottom: 20px; }
+        h2 { margin-top: 30px; margin-bottom: 15px; color: #1f2937; border-bottom: 1px solid #e5e7eb; padding-bottom: 10px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #f3f4f6; }
+        th { background: #f9fafb; color: #6b7280; text-transform: uppercase; font-size: 11px; letter-spacing: 0.05em; }
+        tr:hover { background-color: #fdfdfd; }
+        .status-merged { color: #7c3aed; background: #f5f3ff; padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+        .status-open { color: #059669; background: #ecfdf5; padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+        .status-closed { color: #dc2626; background: #fef2f2; padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+        .btn { display: inline-block; padding: 6px 12px; background: #0366d6; color: white; text-decoration: none; border-radius: 6px; font-size: 12px; transition: background 0.2s; }
+        .btn:hover { background: #024ea3; }
+        .author-tag { color: #0366d6; font-weight: 500; text-decoration: none; font-size: 13px; }
+        .author-tag:hover { text-decoration: underline; }
+        .comment-body { font-size: 13px; color: #4b5563; font-family: monospace; white-space: pre-wrap; word-break: break-word; }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        {% if error %}
+            <h2>Error</h2>
+            <p style="color: red;">{{ error }}</p>
+        {% else %}
+
+        <header>
+            <div>
+                <h1 style="margin:0;">🤖 Copilot Workspace PRs</h1>
+                <p style="color: #6b7280; margin: 5px 0 0 0;">Repo: <strong>{{ repo }}</strong></p>
+            </div>
+            <div style="text-align: right;">
+                <span style="font-size: 24px; font-weight: bold; color: #0366d6;">{{ rows|length }}</span>
+                <p style="font-size: 12px; color: #6b7280; margin: 0;">Total Sessions</p>
+            </div>
+        </header>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>PR #</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Author</th>
+                    <th>Title</th>
+                    <th>Session URL</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rows %}
+                <tr>
+                    <td><a href="{{ row.pr_url }}" target="_blank" style="font-weight:600; color:#0366d6; text-decoration:none;">#{{ row.number }}</a></td>
+                    <td><span class="status-{{ row.state|lower }}">{{ row.state }}</span></td>
+                    <td style="font-size: 12px; color: #6b7280;">{{ row.date }}</td>
+                    <td><a href="{{ row.author_url }}" class="author-tag" target="_blank">{{ row.author }}</a></td>
+                    <td style="font-size: 14px; max-width: 350px;">{{ row.title }}</td>
+                    <td>
+                        {% if row.session_url != 'N/A' %}
+                            <a href="{{ row.session_url }}" class="btn" target="_blank">View Session</a>
+                        {% else %}
+                            <span style="color: #9ca3af; font-size: 12px;">No Link</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if comments_data %}
+        <h2>Comments from First PR (#{{ first_pr_number }})</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Author</th>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Comment</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for comment in comments_data %}
+                <tr>
+                    <td><a href="{{ comment.author_url }}" class="author-tag" target="_blank">{{ comment.author }}</a></td>
+                    <td style="font-size: 12px; color: #6b7280;">{{ comment.date }}</td>
+                    <td style="font-size: 11px; font-weight: 600; color: #7c3aed;">{% if comment.is_pr_body %}PR Body{% else %}Comment{% endif %}</td>
+                    <td><div class="comment-body">{{ comment.body }}</div></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% elif first_pr_number and not comments_error %}
+        <h2>Comments from First PR (#{{ first_pr_number }})</h2>
+        <p style="color: #6b7280; font-size: 14px;">No comments found on this PR.</p>
+        {% elif comments_error %}
+        <h2>Comments from First PR (#{{ first_pr_number }})</h2>
+        <p style="color: #dc2626; font-size: 14px;"><strong>Error:</strong> {{ comments_error }}</p>
+        {% endif %}
+
+        {% endif %}
+    </div>
+</body>
+</html>

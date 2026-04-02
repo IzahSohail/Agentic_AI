@@ -1,6 +1,6 @@
 # Copilot PR Dashboard
 
-A Flask web app that fetches and displays all closed Pull Requests authored by GitHub Copilot in a given repository, using the GitHub Search API.
+A Django web app that fetches and displays all closed Pull Requests authored by GitHub Copilot in a given repository, using the GitHub Search API.
 
 ## What it does
 - Queries the GitHub API for PRs authored by `@copilot` in a target repo
@@ -8,7 +8,10 @@ A Flask web app that fetches and displays all closed Pull Requests authored by G
 - Displays the body and comments of the most recent PR
 
 ## Project files
-- `app.py` — Main Flask application
+- `app.py` — Entry point; starts the Django development server
+- `manage.py` — Standard Django management utility
+- `copilot_dashboard/` — Django project package (settings, URL routing, WSGI)
+- `dashboard/` — Django app containing views, URL config, and HTML template
 - `requirements.txt` — Python dependencies
 - `.env.example` — Template for your environment variables
 
@@ -18,6 +21,12 @@ A Flask web app that fetches and displays all closed Pull Requests authored by G
 
    ```
    GITHUB_TOKEN=your_token_here
+   ```
+
+   Optionally, override the default target repository:
+
+   ```
+   GITHUB_REPO=owner/repo
    ```
 
 2. Install dependencies:
@@ -33,6 +42,13 @@ A Flask web app that fetches and displays all closed Pull Requests authored by G
    ```
 
 4. Open your browser to: http://127.0.0.1:5000/
+
+You can also use Django's standard management utility for other tasks:
+
+```bash
+python manage.py runserver        # same as python app.py
+python manage.py check            # verify configuration
+```
 
 ## Requirements
 - Python 3.8+
