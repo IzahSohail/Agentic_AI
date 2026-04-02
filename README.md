@@ -1,31 +1,39 @@
-# Hello World Flask App
+# Copilot PR Dashboard
 
-This is a beginner-friendly Flask web app.
+A Flask web app that fetches and displays all closed Pull Requests authored by GitHub Copilot in a given repository, using the GitHub Search API.
 
 ## What it does
-- Runs a local web server
-- Automatically opens your browser
-- Displays: `Hello, World!`
+- Queries the GitHub API for PRs authored by `@copilot` in a target repo
+- Shows a table of PRs with status, author, date, title, and a link to the Copilot Workspace session
+- Displays the body and comments of the most recent PR
 
 ## Project files
-- `app.py` - Main Flask application
-- `requirements.txt` - Python dependency list
+- `app.py` — Main Flask application
+- `requirements.txt` — Python dependencies
+- `.env.example` — Template for your environment variables
 
-## How to run
-1. Open a terminal in this project folder.
+## Setup
+
+1. Copy `.env.example` to `.env` and add your GitHub token:
+
+   ```
+   GITHUB_TOKEN=your_token_here
+   ```
+
 2. Install dependencies:
 
    ```bash
    pip install -r requirements.txt
    ```
 
-3. Start the app:
+3. Run the app:
 
    ```bash
    python app.py
    ```
 
-4. Your browser should open automatically to:
-   - http://127.0.0.1:5000/
+4. Open your browser to: http://127.0.0.1:5000/
 
-If the browser does not open automatically, copy the URL above into your browser.
+## Requirements
+- Python 3.8+
+- A GitHub personal access token with `repo` read access
