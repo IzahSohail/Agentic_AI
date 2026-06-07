@@ -1,31 +1,16 @@
-# Hello World Flask App
+# Copilot PR Dashboard
 
-This is a beginner-friendly Flask web app.
+A Flask app that lists Copilot Workspace PRs for a GitHub repository.
 
-## What it does
-- Runs a local web server
-- Automatically opens your browser
-- Displays: `Hello, World!`
+## Setup
 
-## Project files
-- `app.py` - Main Flask application
-- `requirements.txt` - Python dependency list
-
-## How to run
-1. Open a terminal in this project folder.
+1. Copy `.env.example` to `.env` and add your GitHub token.
 2. Install dependencies:
-
    ```bash
    pip install -r requirements.txt
    ```
-
-3. Start the app:
-
+3. Run the app:
    ```bash
    python app.py
    ```
-
-4. Your browser should open automatically to:
-   - http://127.0.0.1:5000/
-
-If the browser does not open automatically, copy the URL above into your browser.
+4. Open http://127.0.0.1:5000/ in your browser.
