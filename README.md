@@ -7,6 +7,12 @@ This is a beginner-friendly Flask web app.
 - Automatically opens your browser
 - Displays: `Hello, World!`
 
+## Use cases
+- Learning the basics of Flask routing and app structure
+- Quickly checking that your Python + Flask environment is set up correctly
+- Using a minimal starter template for small web app experiments
+- Demoing a local web server in beginner workshops or classrooms
+
 ## Project files
 - `app.py` - Main Flask application
 - `requirements.txt` - Python dependency list
